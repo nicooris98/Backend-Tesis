@@ -7,7 +7,7 @@ Hay que instalar python y pip.
 # Instalacion de dependencias
 Hay que instalar las siguientes dependencias.
 ```bash
-pip install opencv-python numpy flask imutils
+pip install opencv-python numpy flask imutils python-dotenv
 ```
 
 # Correr el proyecto

@@ -3,17 +3,22 @@ import os
 import time
 import cv2
 import numpy as np
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
 
 app = Flask(__name__)
 
 # Carpeta donde se guardarán las imágenes
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'uploads')
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 # Cargar el modelo preentrenado de MobileNet SSD
-prototxt_path = 'deploy.prototxt'
-model_path = 'mobilenet_iter_73000.caffemodel'
+prototxt_path = os.getenv('PROTOTXT_PATH')
+model_path = os.getenv('MODEL_PATH')
+port = int(os.getenv('PORT', 3000))
 net = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 
 @app.route('/upload', methods=['POST'])
@@ -51,4 +56,4 @@ def upload_file():
         return 'File successfully uploaded', 200
 
 if __name__ == '__main__':
-    app.run(port=3000)
+    app.run(port=port)

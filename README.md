@@ -10,6 +10,9 @@ Hay que instalar las siguientes dependencias.
 pip install opencv-python numpy flask imutils python-dotenv
 ```
 
+# Variables de entorno
+Si se necesita modificar algo de los archivos o modelos o puerto debe hacerlo en el archivo `.env`.
+
 # Correr el proyecto
 Para correr el proyecto usa el archivo `main.py`.
 ```bash

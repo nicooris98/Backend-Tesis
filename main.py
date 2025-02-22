@@ -1,6 +1,5 @@
 from flask import Flask, request
 import os
-import time
 import cv2
 import numpy as np
 import psycopg2

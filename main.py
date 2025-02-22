@@ -3,7 +3,9 @@ import os
 import time
 import cv2
 import numpy as np
+import psycopg2
 from dotenv import load_dotenv
+from datetime import datetime
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -18,8 +20,22 @@ if not os.path.exists(UPLOAD_FOLDER):
 # Cargar el modelo preentrenado de MobileNet SSD
 prototxt_path = os.getenv('PROTOTXT_PATH')
 model_path = os.getenv('MODEL_PATH')
-port = int(os.getenv('PORT', 3000))
 net = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
+
+port = int(os.getenv('PORT', 3000))
+
+database_url = os.getenv('DATABASE_URL')
+
+# Conectar a la base de datos PostgreSQL
+conn = psycopg2.connect(database_url)
+c = conn.cursor()
+c.execute('''CREATE TABLE IF NOT EXISTS photos
+             (id SERIAL PRIMARY KEY,
+              filename TEXT NOT NULL,
+              filepath TEXT NOT NULL,
+              timestamp TIMESTAMP NOT NULL,
+              person_detected BOOLEAN NOT NULL)''')
+conn.commit()
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -29,8 +45,10 @@ def upload_file():
     if file.filename == '':
         return 'No selected file', 400
     if file:
-        timestamp = int(time.time())
-        filename = f"{timestamp}_{file.filename}"
+        timestamp = datetime.now()
+        date_str = timestamp.strftime("%Y%m%d%H%M%S")
+        extension = os.path.splitext(file.filename)[1]
+        filename = f"{date_str}{extension}"
         filepath = os.path.join(UPLOAD_FOLDER, filename)
         file.save(filepath)
 
@@ -49,6 +67,12 @@ def upload_file():
                 if idx == 15:  # El índice 15 corresponde a personas en MobileNet SSD
                     person_detected = True
                     break
+
+        # Insertar datos en la base de datos PostgreSQL
+        c.execute("INSERT INTO photos (filename, filepath, timestamp, person_detected) VALUES (%s, %s, %s, %s)",
+                  (filename, filepath, timestamp, person_detected))
+        conn.commit()
+        
         if person_detected:
             print('Persona detectada en la imagen')
         else:

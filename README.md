@@ -2,12 +2,12 @@
 Este backend esta hecho con flask y opencv.
 
 # Instalacion de programas
-Hay que instalar python y pip.
+Hay que instalar python y pip y postgres.
 
 # Instalacion de dependencias
 Hay que instalar las siguientes dependencias.
 ```bash
-pip install opencv-python numpy flask imutils python-dotenv
+pip install opencv-python numpy flask imutils python-dotenv psycopg2-binary
 ```
 
 # Variables de entorno

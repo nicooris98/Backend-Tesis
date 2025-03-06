@@ -69,6 +69,14 @@ def get_latests_images():
         print(f"Error al obtener las imágenes: {e}")
         return jsonify(error=f"Error al obtener las imágenes: {e}"), 500
 
+@app.route('/uploads/<filename>', methods=['GET'])
+def serve_image(filename):
+    try:
+        return send_from_directory(UPLOAD_FOLDER, filename)
+    except Exception as e:
+        print(f"Error al servir la imagen: {e}")
+        return jsonify(error=f"Error al servir la imagen: {e}"), 404
+    
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:

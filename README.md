@@ -7,7 +7,7 @@ Hay que instalar python y pip y postgres.
 # Instalacion de dependencias
 Hay que instalar las siguientes dependencias.
 ```bash
-pip install opencv-python numpy flask imutils python-dotenv psycopg2-binary
+pip install opencv-python numpy flask imutils python-dotenv psycopg2-binary flask-cors
 ```
 
 # Variables de entorno

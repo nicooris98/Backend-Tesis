@@ -1,4 +1,5 @@
-from flask import Flask, request
+from flask import Flask, request, send_file, send_from_directory, jsonify
+from flask_cors import CORS
 import os
 import cv2
 import numpy as np
@@ -9,7 +10,16 @@ from datetime import datetime
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
+IP = os.getenv('IP')
+
 app = Flask(__name__)
+
+# Agrega la configuración CORS después de inicializar tu aplicación Flask
+CORS(app)
+
+IONIC_CLIENT = os.getenv('IONIC_CLIENT')
+
+CORS(app, resources={r"/*": {"origins": IONIC_CLIENT}})
 
 # Carpeta donde se guardarán las imágenes
 UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'uploads')
@@ -35,6 +45,29 @@ c.execute('''CREATE TABLE IF NOT EXISTS photos
               timestamp TIMESTAMP NOT NULL,
               person_detected BOOLEAN NOT NULL)''')
 conn.commit()
+
+# Devolvera las ultimas 20 imagenes
+@app.route('/latests-images', methods=['GET'])
+def get_latests_images():
+    try:
+        # Consulta las últimas 20 imágenes almacenadas
+        c.execute("SELECT filename, filepath, timestamp, person_detected FROM photos ORDER BY timestamp DESC LIMIT 20")
+        rows = c.fetchall()
+
+        # Formatear los resultados como JSON con fecha y hora
+        images = []
+        for row in rows:
+            images.append({
+                'filename': row[0],
+                'url': f"http://{IP}:3000/uploads/{row[0]}",
+                'timestamp': row[2].strftime("%Y-%m-%d %H:%M:%S"),  # Formato legible para fecha y hora
+                'person_detected': row[3]
+            })
+
+        return jsonify(images), 200
+    except Exception as e:
+        print(f"Error al obtener las imágenes: {e}")
+        return jsonify(error=f"Error al obtener las imágenes: {e}"), 500
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

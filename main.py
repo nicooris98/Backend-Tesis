@@ -61,7 +61,7 @@ def get_latests_images():
                 'filename': row[0],
                 'url': f"http://{IP}:3000/uploads/{row[0]}",
                 'timestamp': row[2].strftime("%Y-%m-%d %H:%M:%S"),  # Formato legible para fecha y hora
-                'person_detected': row[3]
+                'personDetected': row[3]
             })
 
         return jsonify(images), 200

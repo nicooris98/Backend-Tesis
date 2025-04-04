@@ -27,6 +27,14 @@ def init_db():
             person_detected BOOLEAN NOT NULL
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            username TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
     conn.commit()
     cursor.close()
     conn.close()
@@ -57,3 +65,32 @@ def get_latest_photos(limit=20):
     cursor.close()
     conn.close()
     return photos
+
+def insert_user(username, password_hash):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+            INSERT INTO users (username, password_hash) 
+            VALUES (%s, %s)
+        ''', (username, password_hash))
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise Exception(f"Error al registrar usuario: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+
+def get_user_by_username(username):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT id, username, password_hash
+        FROM users
+        WHERE username = %s
+    ''', (username,))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return user

@@ -4,6 +4,9 @@ from src.services.opencv_service import detect_person
 from src.database import insert_photo, get_latest_photos
 from flask import send_from_directory
 
+# Cargar la clave desde .env
+CAMERA_SECRET_KEY = os.getenv('CAMERA_SECRET_KEY')
+
 UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'uploads')
 IP = os.getenv('IP', 'localhost')
 
@@ -48,6 +51,7 @@ def process_and_save_image(file):
 
     # Detectar personas en la imagen
     person_detected = detect_person(filepath)
+    # print(person_detected)
 
     # Guardar los datos en la base de datos
     insert_photo(filename, filepath, timestamp, person_detected)
@@ -95,3 +99,13 @@ def show_image(filename):
     except Exception as e:
         print(f"Error al mostrar la imagen: {e}")
         raise FileNotFoundError(f"No se pudo mostrar la imagen: {e}")
+    
+def verify_camera_key(key):
+    """
+    Verifica si la clave proporcionada es válida.
+    Args:
+        key (str): Clave enviada desde el Arduino.
+    Returns:
+        bool: True si la clave es válida, False en caso contrario.
+    """
+    return key == CAMERA_SECRET_KEY

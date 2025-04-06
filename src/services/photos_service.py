@@ -77,9 +77,9 @@ def get_latests_images(limit=20):
     return [
         {
             'filename': row['filename'],
-            'url': f"http://{IP}:3000/uploads/{row['filename']}",
+            'url': f"http://{IP}:3000/photos/uploads/{row['filename']}",
             'timestamp': row['timestamp'].strftime("%Y-%m-%d %H:%M:%S"),
-            'person_detected': row['person_detected']
+            'personDetected': row['person_detected']
         }
         for row in rows
     ]

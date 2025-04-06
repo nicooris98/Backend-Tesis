@@ -50,15 +50,15 @@ def get_latests():
 @photos_bp.route('/uploads/<filename>', methods=['GET'])
 def serve_image(filename):
     # Verificar el token desde los encabezados
-    token = request.headers.get('Authorization')
+    #token = request.headers.get('Authorization')
 
-    if not token:
-        return jsonify(error="Token es requerido"), 401
+    #if not token:
+    #    return jsonify(error="Token es requerido"), 401
 
     # Decodificar y verificar el token
-    response = verify_token(token)
-    if "error" in response:
-        return jsonify(response), 401
+    #response = verify_token(token)
+    #if "error" in response:
+    #    return jsonify(response), 401
     
     try:
         return show_image(filename)

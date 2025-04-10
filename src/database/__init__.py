@@ -1,1 +1,1 @@
-from .database import get_db_connection, init_db, insert_photo, get_latest_photos, insert_user, get_user_by_username
+from .database import get_db_connection, init_db, insert_photo, get_latest_photos, insert_user, get_user_by_username, get_photos_paginated

@@ -94,3 +94,34 @@ def get_user_by_username(username):
     cursor.close()
     conn.close()
     return user
+
+def get_photos_paginated(page, per_page):
+    """
+    Recupera las fotos de forma paginada.
+    
+    Args:
+        page (int): Número de la página solicitada.
+        per_page (int): Número de elementos por página.
+    
+    Returns:
+        list: Fotos de la base de datos en el rango paginado.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Calcular el OFFSET (inicio de los resultados)
+    offset = (page - 1) * per_page
+
+    # Consulta con paginación
+    cursor.execute('''
+        SELECT filename, filepath, timestamp, person_detected
+        FROM photos
+        ORDER BY timestamp DESC
+        LIMIT %s OFFSET %s
+    ''', (per_page, offset))
+    
+    photos = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return photos

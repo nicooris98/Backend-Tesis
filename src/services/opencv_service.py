@@ -7,7 +7,7 @@ load_dotenv()
 # Cargar modelo preentrenado de MobileNet SSD
 prototxt_path = os.getenv('PROTOTXT_PATH')
 model_path = os.getenv('MODEL_PATH')
-print(prototxt_path, model_path)
+
 net = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 
 def detect_person(image_path):

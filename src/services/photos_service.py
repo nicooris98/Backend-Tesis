@@ -1,7 +1,7 @@
 from datetime import datetime
 import os
 from src.services.opencv_service import detect_person
-from src.database import insert_photo, get_latest_photos
+from src.database import insert_photo, get_latest_photos, get_photos_paginated
 from flask import send_from_directory
 
 # Cargar la clave desde .env
@@ -109,3 +109,17 @@ def verify_camera_key(key):
         bool: True si la clave es válida, False en caso contrario.
     """
     return key == CAMERA_SECRET_KEY
+
+def get_paginated_photos(page, limit):
+    rows = get_photos_paginated(page, limit)
+    
+    images = [
+        {
+            'filename': row[0],
+            'url': f"http://{IP}/uploads/{row[0]}",
+            'timestamp': row[2].strftime("%Y-%m-%d %H:%M:%S"),
+            'personDetected': row[3]
+        }
+        for row in rows
+    ]
+    return images

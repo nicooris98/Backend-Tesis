@@ -50,3 +50,5 @@ Si da error con algun paquete entonces instalalo.
 ```bash
 pip install <nombre_del_paquete_faltante>
 ```
+# Archivo .env
+Existe el archivo `.env.development` el cual se debe usar como plantilla para el archivo `.env` que debe crear en el proyecto.

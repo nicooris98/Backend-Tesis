@@ -9,6 +9,7 @@ CAMERA_SECRET_KEY = os.getenv('CAMERA_SECRET_KEY')
 
 UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'uploads')
 IP = os.getenv('IP', 'localhost')
+PORT = os.getenv('PORT', '3000')
 
 def save_file(file):
     """
@@ -77,7 +78,7 @@ def get_latests_images(limit=20):
     return [
         {
             'filename': row['filename'],
-            'url': f"http://{IP}:3000/photos/uploads/{row['filename']}",
+            'url': f"http://{IP}:{PORT}/photos/uploads/{row['filename']}",
             'timestamp': row['timestamp'].strftime("%Y-%m-%d %H:%M:%S"),
             'personDetected': row['person_detected']
         }
@@ -116,7 +117,7 @@ def get_paginated_photos(page, limit):
     images = [
         {
             'filename': row[0],
-            'url': f"http://{IP}/uploads/{row[0]}",
+            'url': f"http://{IP}:{PORT}/photos/uploads/{row[0]}",
             'timestamp': row[2].strftime("%Y-%m-%d %H:%M:%S"),
             'personDetected': row[3]
         }

@@ -81,14 +81,14 @@ def get_paginated_images():
     
     # Obtener parámetros de la solicitud
     page = request.args.get('page', default=1, type=int)
-    per_page = request.args.get('per_page', default=10, type=int)  # Elementos por página (por defecto 10)
+    limit = request.args.get('limit', default=10, type=int)  # Elementos por página (por defecto 10)
 
     try:
         # Llamar a la función de paginación
-        images = get_paginated_photos(page, per_page)
+        images = get_paginated_photos(page, limit)
 
         # Formatear los resultados en JSON
-        return jsonify(images=images, page=page, per_page=per_page), 200
+        return jsonify(images=images, page=page, limit=limit), 200
     except Exception as e:
         print(f"Error al obtener imágenes paginadas: {e}")
         return jsonify(error=f"Error al obtener imágenes paginadas: {e}"), 500

@@ -4,10 +4,34 @@ Este backend esta hecho con flask y opencv.
 # Instalacion de programas
 Hay que instalar python y pip y postgres.
 
+# Entorno virtual
+Un entorno virtual es un espacio aislado donde puedes instalar paquetes de Python sin afectar el resto de tu sistema o tus otros proyectos.
+
+## Creacion del entorno
+```bash
+py -3 -m venv .venv
+```
+
+## Activar el entorno
+Antes de trabajar en su proyecto, active el entorno correspondiente:
+
+```bash
+.venv\Scripts\activate
+```
+
+El prompt del shell cambiará para mostrar el nombre del entorno activado.
+
+## Desactivar el entorno
+En un entorno activado, ejecutar:
+
+```bash
+deactivate
+```
+
 # Instalacion de dependencias
 Hay que instalar las siguientes dependencias.
 ```bash
-pip install opencv-python numpy flask imutils python-dotenv psycopg2-binary flask-cors PyJWT
+pip install opencv-python numpy flask imutils python-dotenv psycopg2-binary flask-cors PyJWT flask-socketio eventlet
 ```
 
 # Variables de entorno

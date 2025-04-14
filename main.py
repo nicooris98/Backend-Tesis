@@ -4,6 +4,7 @@ from src.routes import register_blueprints  # Registrar rutas desde el paquete r
 from src.database import init_db  # Inicializar la base de datos
 from dotenv import load_dotenv
 import os
+from flask_socketio import SocketIO
 
 # Cargar variables de entorno
 load_dotenv()
@@ -18,13 +19,16 @@ CORS(app, resources={r"/*": {"origins": IONIC_CLIENT}})
 # Inicializar la base de datos (crear tablas si no existen)
 init_db()
 
-# Registrar los blueprints (rutas)
-register_blueprints(app)
 
 # Configuración adicional (por ejemplo, carpeta de subidas)
 app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads')
 
+socketio = SocketIO(app, cors_allowed_origins=IONIC_CLIENT)
+
+# Registrar los blueprints (rutas)
+register_blueprints(app, socketio)
+
 # Ejecutar el servidor
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 3000))
-    app.run(host='0.0.0.0', port=port)
+    socketio.run(app, host='0.0.0.0', port=port, debug=True)

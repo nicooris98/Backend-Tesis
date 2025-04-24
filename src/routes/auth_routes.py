@@ -9,6 +9,13 @@ def register():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
+    password_rep = data.get('passwordRep')
+
+    if password != password_rep:
+        return jsonify(error="Las contraseñas deben ser iguales"), 400
+    
+    if len(password) < 6:
+        return jsonify(error="La contraseña debe contener al menos 6 caracteres"), 400
 
     if not username or not password:
         return jsonify(error="Username y password son requeridos"), 400
@@ -25,6 +32,9 @@ def login():
 
     if not username or not password:
         return jsonify(error="Username y password son requeridos"), 400
+    
+    if len(password) < 6:
+        return jsonify(error="La contraseña debe contener al menos 6 caracteres"), 400
 
     response = authenticate_user(username, password)
     return jsonify(response), 200 if "message" in response else 401

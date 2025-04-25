@@ -78,7 +78,7 @@ def get_latests_images(limit=20):
     return [
         {
             'filename': row['filename'],
-            'url': f"http://{IP}:{PORT}/photos/uploads/{row['filename']}",
+            'url': f"http://localhost:{PORT}/photos/uploads/{row['filename']}",
             'timestamp': row['timestamp'].strftime("%Y-%m-%d %H:%M:%S"),
             'personDetected': row['person_detected']
         }
@@ -117,7 +117,7 @@ def get_paginated_photos(page, limit):
     images = [
         {
             'filename': row[0],
-            'url': f"http://{IP}:{PORT}/photos/uploads/{row[0]}",
+            'url': f"http://localhost:{PORT}/photos/uploads/{row[0]}",
             'timestamp': row[2].strftime("%Y-%m-%d %H:%M:%S"),
             'personDetected': row[3]
         }

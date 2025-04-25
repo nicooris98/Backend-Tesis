@@ -8,7 +8,7 @@ from flask import send_from_directory
 CAMERA_SECRET_KEY = os.getenv('CAMERA_SECRET_KEY')
 
 UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', 'uploads')
-IP = os.getenv('IP', 'localhost')
+IP = os.getenv('IP')
 PORT = os.getenv('PORT', '3000')
 
 def save_file(file):

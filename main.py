@@ -15,6 +15,7 @@ app = Flask(__name__)
 # Configurar CORS para manejar solicitudes del cliente
 IONIC_CLIENT = os.getenv('IONIC_CLIENT')
 CORS(app, resources={r"/*": {"origins": IONIC_CLIENT}})
+# CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Inicializar la base de datos (crear tablas si no existen)
 init_db()
@@ -24,6 +25,7 @@ init_db()
 app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads')
 
 socketio = SocketIO(app, cors_allowed_origins=IONIC_CLIENT)
+# socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Registrar los blueprints (rutas)
 register_blueprints(app, socketio)

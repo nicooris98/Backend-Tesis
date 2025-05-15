@@ -1,0 +1,10 @@
+opencv-python
+numpy
+flask
+imutils
+python-dotenv
+psycopg2-binary
+flask-cors
+PyJWT
+flask-socketio
+eventlet

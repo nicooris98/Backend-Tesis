@@ -34,6 +34,11 @@ Hay que instalar las siguientes dependencias.
 pip install opencv-python numpy flask imutils python-dotenv psycopg2-binary flask-cors PyJWT flask-socketio eventlet
 ```
 
+## Instalar con archivo requirements.txt
+```bash
+pip install -r requirements.txt
+```
+
 # Variables de entorno
 Si se necesita modificar algo de los archivos o modelos o puerto debe hacerlo en el archivo `.env`.
 
